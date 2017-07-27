@@ -1,6 +1,5 @@
-
-    *.pyc
-    media/
-    *.db
-    *.sqlite3
-    static/external
+*.pyc
+media/
+*.db
+db.sqlite3
+static/external
