@@ -1,0 +1,15 @@
+{
+  "name": "france-geojson",
+  "homepage": "https://github.com/gregoiredavid/france-geojson",
+  "version": "2.0.1",
+  "_release": "2.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.0.1",
+    "commit": "b3b6cb128bc343b66edb01c19e07b7dfd684a757"
+  },
+  "_source": "https://github.com/gregoiredavid/france-geojson.git",
+  "_target": "^2.0.1",
+  "_originalSource": "https://github.com/gregoiredavid/france-geojson.git",
+  "_direct": true
+}
