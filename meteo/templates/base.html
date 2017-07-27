@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,11 +11,14 @@
     <link rel="stylesheet" href="{% static 'external/leaflet/dist/leaflet.css' %}">
 
     <style media="screen">
-    #mapid { height: 800px; }
+        #mapid {
+            height: 800px;
+        }
     </style>
 
     <title>Météo</title>
 </head>
+
 <body>
     <div class="container">
         <div class="row">
@@ -29,23 +33,36 @@
     <script src="{% static 'external/leaflet/dist/leaflet-src.js' %}" charset="utf-8"></script>
     <script src="{% static 'external/leaflet-ajax/dist/leaflet.ajax.min.js' %}" charset="utf-8"></script>
     <script type="text/javascript">
+        var mymap = L.map('mapid').setView([47.093, 0.747], 6);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Youpi',
+            maxZoom: 18,
+        }).addTo(mymap);
 
-    var mymap = L.map('mapid').setView([47.093, 0.747], 6);
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Youpi',
-        maxZoom: 18,
-    }).addTo(mymap);
+        var geojsonLayer = new L.GeoJSON.AJAX("{% static 'departement.geojson' %}");
+        geojsonLayer.addTo(mymap);
 
-    var geojsonLayer = new L.GeoJSON.AJAX("{% static 'departement.geojson' %}");
-    geojsonLayer.addTo(mymap);
+        $.ajax({
+            dataType: "json",
+            url: "https://public.opendatasoft.com/api/records/1.0/search/?dataset=code-insee-postaux-geoflar&rows=-1&refine.statut=Pr%C3%A9fecture",
+            success: function(dataset) {
+                for (data of dataset.records) {
+                    L.geoJson(data.geometry).addTo(mymap);
+                }
+            }
+        });
 
-    var geojsonLayerA = new L.GeoJSON.AJAX("{% static 'code-insee-postaux-geoflar.geojson' %}");
-    geojsonLayerA.addTo(mymap);
-
-    var geojsonLayerAA = new L.GeoJSON.AJAX("{% static 'code-insee-postaux-geoflar(1).geojson' %}");
-    geojsonLayerAA.addTo(mymap);
-
+        $.ajax({
+            dataType: "json",
+            url: "https://public.opendatasoft.com/api/records/1.0/search/?dataset=code-insee-postaux-geoflar&rows=-1&refine.statut=Pr%C3%A9fecture+de+r%C3%A9gion",
+            success: function(dataset) {
+                for (data of dataset.records) {
+                    L.geoJson(data.geometry).addTo(mymap);
+                }
+            }
+        });
     </script>
 
 </body>
+
 </html>
